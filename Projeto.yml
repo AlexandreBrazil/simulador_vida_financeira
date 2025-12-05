@@ -1,0 +1,23 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  name: 'Objetos'
+
+resources:
+  repositories:
+    - repository: templates-pipeline
+      type: git
+      name: '00_TEMPLATE_YML/templates-pipeline'
+
+stages:
+  - template: azure-pipelines.yml@templates-pipeline
+    parameters:
+      branchToMonitor: 'main'
+      poolName: 'Objetos'
+      targetFolderRoot: 'C:\\inetpub\\wwwroot'
+      # email1@email.com,email2@email.com........... 
+      emailsNotificacao: 'jpcoelho@senacrs.com.br, acbastos@senacrs.com.br' 
+      enableEmailNotification: true

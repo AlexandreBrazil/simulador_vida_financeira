@@ -1,0 +1,400 @@
+:root {
+  --color-fullscreen: #007bff;
+  --color-sound: #28a745;
+  --color-menu: #ffc107;
+  --color-panel: #70310c;
+}
+
+/* --------------------------------------------- */
+/* Estilos para os botões de controle agrupados  */
+/* --------------------------------------------- */
+.controls-container {
+  z-index: 2; /* acima do canvas */
+  background-color: #fff !important;
+  padding: 9px !important;
+  border-radius: 5px !important;
+  box-shadow: 0 4px 3px #3333 !important;
+}
+
+/* --------------------------------------------- */
+/* Reset e layout base                           */
+/* --------------------------------------------- */
+body,
+html {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: blanchedalmond;
+  font-family: Arial, sans-serif;
+}
+
+/* --------------------------------------------- */
+/* Container Unity WebGL                         */
+/* --------------------------------------------- */
+#unityContainer {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* --------------------------------------------- */
+/* Canvas da Unity                              */
+/* --------------------------------------------- */
+#unityCanvas {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  max-height: 100%;
+}
+
+/* --------------------------------------------- */
+/* Botões de controle via mask-image             */
+/* --------------------------------------------- */
+.control-btn {
+  margin: 0;
+  background-color: transparent;
+  border: none;
+  padding: 0.5%;
+  cursor: pointer;
+  transition: transform 0.2s ease !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Tamanho base (smartphone): 50% do desktop (60px → 30px) */
+  width: 30px;
+  height: 30px;
+}
+
+/* Fullscreen */
+.fullscreen-btn {
+  background-color: var(--color-fullscreen);
+  mask-image: url("image/fullscreen-enter.svg");
+  -webkit-mask-image: url("image/fullscreen-enter.svg");
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-position: center;
+  mask-size: contain;
+  -webkit-mask-size: contain;
+}
+
+/* Sound */
+.sound-btn {
+  background-color: var(--color-sound);
+  mask-image: url("image/sound-off.svg");
+  -webkit-mask-image: url("image/sound-off.svg");
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-position: center;
+  mask-size: contain;
+  -webkit-mask-size: contain;
+}
+
+/* Menu */
+.menu-btn {
+  background-color: var(--color-menu);
+  mask-image: url("image/settings-gear.svg");
+  -webkit-mask-image: url("image/settings-gear.svg");
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-position: center;
+  mask-size: contain;
+  -webkit-mask-size: contain;
+}
+
+.control-btn:hover {
+  transform: scale(1.1);
+}
+
+/* --------------------------------------------- */
+/* Tamanhos responsivos para tablet e desktop    */
+/* --------------------------------------------- */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .control-btn {
+    width: 25px;
+    height: 25px;
+  }
+}
+
+/* Desktop: 100% (60px) */
+@media (min-width: 1024px) {
+  .control-btn {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+/* --------------------------------------------- */
+/* Animação do menu via transform                */
+/* --------------------------------------------- */
+#menu.open-left {
+  /* transform: translateX(150px); */
+  opacity: 0.5;
+}
+#menu.open-right {
+  /* transform: translateX(-150px); */
+  opacity: 0.5;
+}
+
+/* --------------------------------------------- */
+/* Aviso de rotação de dispositivo               */
+/* --------------------------------------------- */
+#rotation-warning {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: blanchedalmond;
+  color: white;
+  z-index: 9999;
+}
+
+#rotation-warning img {
+  width: 100px;
+  height: 100px;
+}
+
+#rotation-warning p {
+  margin-top: 20px;
+  font-size: 1.5em;
+  color: #70310c;
+}
+
+#highlight-message {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ffcc00;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+  margin-top: 1rem;
+}
+
+@media (orientation: portrait) {
+  #rotation-warning {
+    display: flex;
+  }
+  #unityContainer {
+    display: none;
+  }
+}
+
+@media (orientation: landscape) {
+  #rotation-warning {
+    display: none;
+  }
+  #unityContainer {
+    display: flex;
+  }
+}
+
+/* --------------------------------------------- */
+/* Barra de progresso                            */
+/* --------------------------------------------- */
+.progress-bar {
+  width: 35%;
+  height: 50px;
+  background-color: #ebffc7;
+  position: relative;
+  border-radius: 25px;
+  overflow: hidden;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+.filler {
+  height: 100%;
+  background: linear-gradient(90deg, #4caf50, #8bc34a);
+  transition: width 0.3s ease-in-out;
+  border-radius: 15px 0 0 15px;
+  background-size: 200% 100%;
+  animation: loadingAnimation 1s infinite;
+}
+
+@keyframes loadingAnimation {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.loadingContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+}
+
+/* --------------------------------------------- */
+/* Filtros de daltonismo                         */
+/* --------------------------------------------- */
+.grayscale {
+  filter: grayscale(100%);
+  transition: filter 0.3s ease;
+}
+.deuteranopia {
+  filter: url(#deuteranopia);
+  transition: filter 0.3s ease;
+}
+.protanopia {
+  filter: url(#protanopia);
+  transition: filter 0.3s ease;
+}
+.tritanopia {
+  filter: url(#tritanopia);
+  transition: filter 0.3s ease;
+}
+
+/* --------------------------------------------- */
+/* Painel lateral — variantes de posição          */
+/* --------------------------------------------- */
+#menu-panel {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 150px;
+  background-color: var(--color-panel);
+  color: white;
+  box-shadow: 3px 0 5px rgba(0, 0, 0, 0.2);
+  transition: left 0.3s ease, right 0.3s ease;
+  z-index: 1;
+  left: -166px;
+  right: auto;
+  padding: 8px;
+}
+#menu-panel.panel-right {
+  left: auto;
+  right: -166px;
+}
+#menu-panel.open-left {
+  left: 0;
+  right: auto;
+}
+#menu-panel.open-right {
+  left: auto;
+  right: 0;
+}
+
+/* --------------------------------------------- */
+/* Botões do painel lateral                      */
+/* --------------------------------------------- */
+#menu-panel button {
+  display: block;
+  width: 100%;
+  margin: 8px 0;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+/* --------------------------------------------- */
+/* Classes para ajustar o texto para ios         */
+/* --------------------------------------------- */
+
+.visually-hidden,
+.visually-hidden-focusable:not(:focus):not(:focus-within) {
+  top: 0;
+  left: 0;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+.visually-hidden:not(caption),
+.visually-hidden-focusable:not(:focus):not(:focus-within):not(caption) {
+  position: absolute !important;
+}
+.visually-hidden *,
+.visually-hidden-focusable:not(:focus):not(:focus-within) * {
+  overflow: hidden !important;
+}
+
+/* --------------------------------------------- */
+/* Ajuste do tamanho do VLIBRAS no mobile        */
+/* --------------------------------------------- */
+
+@media screen and (orientation: landscape) {
+  div[vw] {
+    &.mobile-ajust {
+      div[vw-plugin-wrapper] {
+        &.active {
+          height: 85vh !important;
+        }
+      }
+      #gameContainer {
+        canvas {
+          min-height: 100% !important;
+        }
+      }
+      [vp] {
+        .vpw-info-screen {
+          overflow: auto !important;
+        }
+        [vp-settings] {
+          &.active {
+            overflow: auto !important;
+            background-color: #fdfdfd !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* --------------------------------------------- */
+/* Camada de Acessibilidade                      */
+/* --------------------------------------------- */
+
+/* O contêiner da camada, posicionado sobre o canvas. */
+/* É crucial que ele não intercepte cliques do mouse/toque. */
+#accessibility-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Permite que cliques passem através dele para o canvas */
+  z-index: 10; /* Acima do canvas, mas abaixo dos controles se necessário */
+}
+
+/* ⭐ ELEMENTOS PROXY - ESTILOS BASE (Dinâmicos via JavaScript) */
+.proxy-element {
+  position: absolute;
+  pointer-events: none; /* Torna o elemento clicável para o JavaScript */
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  
+  /* ⚠️ REMOVIDOS os estilos de debug fixos! */
+  /* background-color e border agora são controlados dinamicamente via JS */
+  
+  /* Estilos que sempre permanecem */
+  box-sizing: border-box;
+  outline: none; /* Remove outline padrão do navegador */
+}
+
+/* Focus para navegação por teclado - sempre visível */
+.proxy-element:focus {
+  outline: 2px solid #0066cc !important;
+  outline-offset: 2px !important;
+}

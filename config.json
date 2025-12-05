@@ -1,0 +1,27 @@
+{
+  "enableVLibras": false,
+  "controls": {
+    "position": "SD",
+    "offset": 4,
+    "separation_space_button": 0,
+    "colors": {
+      "fullscreen": "#007bff",
+      "sound":      "#007bff",
+      "menu":       "#007bff",
+      "panel":      "#007bff"
+    }
+  },
+   "tts": {
+    "enable": true,
+    "defaults": {
+      "rate": 1.0,
+      "volume": 1.0,
+      "pitch": 1.0
+    }
+  },
+  "accessibilityLayer": {
+    "enable": true,
+    "debug": true,
+    "pointer-events": true
+  }
+}

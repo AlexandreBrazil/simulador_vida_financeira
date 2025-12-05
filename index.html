@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SENAC RS</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body id="body">
+
+  <!-- Armadilha de Foco para detectar leitor de tela -->
+  <div id="screen-reader-trap" tabindex="0" class="visually-hidden" aria-label="Conteúdo interativo carregado. Use os gestos de navegação para explorar."></div>
+
+  <!-- Som de clique -->
+  <audio id="click-sound" src="sounds/click-sound.mp3" preload="auto"></audio>
+
+  <!-- Aviso de rotação de dispositivo -->
+  <div id="rotation-warning">
+    <img src="image/rotate-device.gif" alt="Rotate Device">
+    <p>Por favor, gire seu dispositivo</p><br>
+    <p id="highlight-message">Não esqueça de ativar a rotação de tela</p>
+  </div>
+
+  <!-- Container oculto para textos da Unity enviados ao VLibras -->
+  <div id="vlibras-ui-texts" class="visually-hidden"></div>
+
+  <!-- Container principal da Unity WebGL -->
+  <div id="unityContainer">
+    <!-- NOVA CAMADA DE ACESSIBILIDADE -->
+    <div id="accessibility-overlay" aria-live="polite"></div>
+    
+    <div class="controls-container">
+      <button
+        id="fullscreen-btn"
+        class="control-btn fullscreen-btn"
+        onclick="toggleFullscreen()"
+        aria-label="Entrar em tela cheia"
+        aria-pressed="false">
+      </button>
+      <button
+        id="sound-btn"
+        class="control-btn sound-btn"
+        onclick="toggleSound()"
+        aria-label="Mutar som"
+        aria-pressed="true">
+      </button>
+      <button
+        id="menu"
+        class="control-btn menu-btn"
+        aria-controls="menu-panel"
+        aria-expanded="false"
+        aria-label="Abrir painel de configurações">
+      </button>
+
+      <div
+        id="menu-panel"
+        role="dialog"
+        aria-modal="true"
+        aria-hidden="true"
+        aria-label="Painel de configurações">
+        <button id="acromatopsia" onclick="applyFilter('grayscale')">Acromatopsia</button>
+        <button id="protanomalia" onclick="applyFilter('protanopia')">Protanomalia</button>
+        <button id="deuteranomalia" onclick="applyFilter('deuteranopia')">Deuteranomalia</button>
+        <button id="tritanomalia" onclick="applyFilter('tritanopia')">Tritanomalia</button>
+        <button id="normal" onclick="applyFilter('normal')">Sem Daltonismo</button>
+      </div>
+    </div>
+
+    <canvas id="unityCanvas"></canvas>
+
+    <div class="loadingContainer" id="loadingBar">
+      <div class="progress-bar">
+        <div class="filler" id="progressFiller"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Definições SVG dos filtros de daltonismo -->
+  <svg width="0" height="0" aria-hidden="true">
+    <defs>
+      <filter id="deuteranopia">
+        <feColorMatrix type="matrix" values="
+          0.625, 0.375, 0, 0, 0,
+          0.7,   0.3,   0, 0, 0,
+          0,     0.3,   0.7, 0, 0,
+          0,     0,     0,   1, 0
+        "/>
+      </filter>
+      <filter id="protanopia">
+        <feColorMatrix type="matrix" values="
+          0.567, 0.433, 0, 0, 0,
+          0.558, 0.442, 0, 0, 0,
+          0,     0.242, 0.758, 0, 0,
+          0,     0,     0,     1, 0
+        "/>
+      </filter>
+      <filter id="tritanopia">
+        <feColorMatrix type="matrix" values="
+          0.95,  0.05,   0,    0, 0,
+          0,     0.433,  0.567,0, 0,
+          0,     0.475,  0.525,0, 0,
+          0,     0,      0,    1, 0
+        "/>
+      </filter>
+    </defs>
+  </svg>
+
+  <!-- Placeholder para injeção condicional do widget VLibras -->
+  <div id="vlibras-container"></div>
+
+  <!-- Script principal -->
+  <script src="scripts.js"></script>
+</body>
+</html>
