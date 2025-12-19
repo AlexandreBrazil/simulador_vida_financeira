@@ -1,5 +1,5 @@
 {
-  "enableVLibras": true,
+  "enableVLibras": false,
   "controls": {
     "position": "SD",
     "offset": 4,
